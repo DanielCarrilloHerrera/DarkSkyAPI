@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/llPrincipal"
+    android:weightSum="10"
+    tools:context="com.logisticapp.darkskyapi.WeatherActivity"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/app_bar"/>
+
+        <FrameLayout
+            android:id="@+id/frameLayout_image"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="6">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/ivFondo"
+                android:background="@drawable/nubes" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="#AA000000"
+                android:layout_gravity="center_horizontal|bottom"
+                android:padding="12dip"
+                android:weightSum="3"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvTemperatura"
+                    android:layout_width="0dp"
+                    android:layout_weight="1.5"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffffff"
+                    android:gravity="center"
+                    android:textSize="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="string" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerInParent="true">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ffffffff"
+                            android:gravity="center"
+                            android:textSize="15dp"
+                            android:id="@+id/tvWindDaily"/>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ffffffff"
+                            android:gravity="center"
+                            android:textSize="25dp"
+                            android:id="@+id/tvDate"/>
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:weightSum="3"
+        android:orientation="horizontal">
+
+        <!--Viento-->
+        <TextView
+            android:id="@+id/tvViento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="4 MPH"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <!--Sentido del viento-->
+        <TextView
+            android:id="@+id/tvSentidoViento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="South"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <!--Humedad-->
+        <TextView
+            android:id="@+id/tvHumedad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="23%"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llDiasSemana"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:weightSum="5"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llDiaUno"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDiaDos"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDiaTres"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDiaCuatro"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDiaCinco"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

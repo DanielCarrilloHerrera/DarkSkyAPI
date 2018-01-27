@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rlPrincipal"
+    tools:context="com.logisticapp.darkskyapi.MainActivity">
+
+    <ImageView
+        android:id="@+id/weatherBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--Temperatura-->
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:gravity="center_horizontal"
+        android:text="10 °C"
+        android:textSize="90sp" />
+
+    <!--Descripción del clima-->
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:text="Nubes"
+        android:textSize="40sp" />
+
+
+</android.support.constraint.ConstraintLayout>
