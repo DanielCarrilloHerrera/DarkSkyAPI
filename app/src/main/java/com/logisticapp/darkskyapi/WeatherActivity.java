@@ -1,8 +1,6 @@
 package com.logisticapp.darkskyapi;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -10,10 +8,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,10 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -59,22 +53,20 @@ public class WeatherActivity extends AppCompatActivity implements
     //Petición HTTP a esta URL, para recuperar condiciones del clima
     String weatherWebServiceURL;
 
-    //Objeto response
-    JSONObject respuesta;
 
     //Dialogo de carga
     ProgressBar pBar;
 
-    //Textview para mostrar temperatura y su descripción
+    //Textviews
     TextView tvTemperatura, tvViento, tvSentidoViento, tvHumedad, tvWindDaily, tvDate;
-    //Imagen de fondo
-
+    TextView tvMaxTemperatura, tvMinTemperatura, tvProbabilidadLluvia;
+    TextView tvCloudCover, tvPressure, tvMoonPhase;
 
     //Layout de la pantalla
     LinearLayout layoutPrincipal;
 
-    //LinearLayout de los días de la semana
-    LinearLayout layoutDiasSemana;
+    //Icon
+    ImageView icon, fondo;
 
     //Toolbar
     Toolbar toolbar;
@@ -94,15 +86,24 @@ public class WeatherActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        icon = (ImageView) findViewById(R.id.ivIcon);
+        fondo = (ImageView) findViewById(R.id.ivFondo);
         tvTemperatura = (TextView) findViewById(R.id.tvTemperatura);
         tvViento = (TextView) findViewById(R.id.tvViento);
         tvSentidoViento = (TextView) findViewById(R.id.tvSentidoViento);
         tvHumedad = (TextView) findViewById(R.id.tvHumedad);
         tvDate = (TextView) findViewById(R.id.tvDate);
         tvWindDaily = (TextView) findViewById(R.id.tvWindDaily);
+        tvMaxTemperatura = (TextView) findViewById(R.id.tvMaximaTemperatura);
+        tvMinTemperatura = (TextView) findViewById(R.id.tvMinimaTemperatura);
+        tvProbabilidadLluvia = (TextView) findViewById(R.id.tvProbabilidadLluvia);
+        tvMoonPhase = (TextView) findViewById(R.id.tvMoonPhase);
+        tvPressure = (TextView) findViewById(R.id.tvPressure);
+        tvCloudCover = (TextView) findViewById(R.id.tvCloudCover);
 
         layoutPrincipal = (LinearLayout) findViewById(R.id.llPrincipal);
-        layoutDiasSemana = (LinearLayout) findViewById(R.id.llDiasSemana);
+        //layoutUno = (LinearLayout) findViewById(R.id.llUno);
+        //layoutDos = (LinearLayout) findViewById(R.id.llDos);
 
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -120,7 +121,6 @@ public class WeatherActivity extends AppCompatActivity implements
 
         cargarBarraProgreso();
         realizarPeticionHttpTVSH();
-        realizarPeticionesHttpDiasSemana();
     }
 
     public void cargarBarraProgreso() {
@@ -165,6 +165,74 @@ public class WeatherActivity extends AppCompatActivity implements
                     Date dateFormat = new Date(data.getLong("time"));
                     String dayOfWeek = sdf.format(dateFormat);
 
+                    switch (hora.getString("icon")){
+
+                        case "clear-day":
+                            icon.setImageResource(R.drawable.clear_day);
+                            fondo.setImageResource(R.drawable.clear_day_big);
+                        break;
+
+                        case "clear-night":
+                            icon.setImageResource(R.drawable.clear_night_big);
+                            fondo.setImageResource(R.drawable.clear_night_big);
+                        break;
+
+                        case "cloudy":
+                            icon.setImageResource(R.drawable.cloudy);
+                            fondo.setImageResource(R.drawable.cloudy_big);
+                        break;
+
+                        case "fog":
+                            icon.setImageResource(R.drawable.fog);
+                            fondo.setImageResource(R.drawable.fog_big);
+                        break;
+
+                        case "hail":
+                            icon.setImageResource(R.drawable.hail);
+                            fondo.setImageResource(R.drawable.hail_big);
+                        break;
+
+                        case "partly-cloudy-day":
+                            icon.setImageResource(R.drawable.partly_cloudy_day);
+                            fondo.setImageResource(R.drawable.partly_cloudy_day_big);
+                        break;
+
+                        case "partly-cloudy-night":
+                            icon.setImageResource(R.drawable.partly_cloudy_night);
+                            fondo.setImageResource(R.drawable.partly_cloudy_night);
+                        break;
+
+                        case "rain":
+                            icon.setImageResource(R.drawable.rain);
+                            fondo.setImageResource(R.drawable.rain);
+                        break;
+
+                        case "sleet":
+                            icon.setImageResource(R.drawable.sleet);
+                            fondo.setImageResource(R.drawable.sleet_big);
+                        break;
+
+                        case "snow":
+                            icon.setImageResource(R.drawable.snow);
+                            fondo.setImageResource(R.drawable.snow_big);
+                        break;
+
+                        case "thunderstorm":
+                            icon.setImageResource(R.drawable.thunderstorm);
+                            fondo.setImageResource(R.drawable.thunderstorm);
+                        break;
+
+                        case "tornado":
+                            icon.setImageResource(R.drawable.tornado);
+                            fondo.setImageResource(R.drawable.tornado_big);
+                            break;
+
+                        case "wind":
+                            icon.setImageResource(R.drawable.wind);
+                            fondo.setImageResource(R.drawable.wind_big);
+                        break;
+
+                    }
                     tvDate.setText(dayOfWeek);
                     tvWindDaily.setText(String.valueOf(hora.get("summary")));
 
@@ -172,17 +240,43 @@ public class WeatherActivity extends AppCompatActivity implements
                     tvTemperatura.setText(String.valueOf(data.get("temperature") + " °"));
 
                     //Mostrar la velocidad del viento
-                    tvViento.setText(String.valueOf(data.get("windSpeed")));
+                    tvViento.setText("Windspeed: "+String.valueOf(data.get("windSpeed")) + " MPH");
 
                     //Mostrar el sentido del viento
                     if (data.getInt("windBearing") > 0)
-                        tvSentidoViento.setText("South");
+                        tvSentidoViento.setText("Windbearing: South");
                     else
-                        tvSentidoViento.setText("North");
+                        tvSentidoViento.setText("Windbearing: North");
 
                     //Mostrar la humedad
-                    tvHumedad.setText(String.valueOf(data.get("humidity")));
+                    tvHumedad.setText("Humidity: " + (data.getDouble("humidity") * 100) + "%");
 
+                    //Show pressure
+                    tvPressure.setText("Pressure: "+ (data.getDouble("pressure")) + " mlb");
+
+                    //Show Cloud cover
+                    tvCloudCover.setText("Cloud cover: "+ (data.getDouble("cloudCover")*100) + "%");
+
+
+                    JSONObject diario = (JSONObject) response.get("daily");
+                    data = (JSONObject) ((JSONArray) diario.get("data")).get(0);
+
+                    //Temperatura y probabilidad de lluvia
+                    tvMaxTemperatura.setText("Maxime temperature: " + data.getDouble("temperatureMax") + " °");
+                    tvMinTemperatura.setText("Minimum temperature: " + data.getDouble("temperatureMin") + " °");
+                    tvProbabilidadLluvia.setText("Chance of precipitation: " + (data.getDouble("precipProbability") * 100) + "%");
+
+                    //Lunar phase
+                    double moonPhase = data.getDouble("moonPhase");
+
+                    if(moonPhase == 0 )
+                        tvMoonPhase.setText("Moon phase: New moon");
+                    if(moonPhase == 0.25 )
+                        tvMoonPhase.setText("Moon phase: First quarter moon");
+                    if(moonPhase == 0.5 )
+                        tvMoonPhase.setText("Moon phase: Full moon");
+                    if(moonPhase == 0.75 )
+                        tvMoonPhase.setText("Moon phase: Last quarter moon");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -208,77 +302,6 @@ public class WeatherActivity extends AppCompatActivity implements
 
     }
 
-    public void realizarPeticionesHttpDiasSemana() {
-
-        ArrayList<String> fechas = calcularFechasDiasSemana();
-
-        latLng = getLocation();
-
-        //Se cargan todos los días
-
-        //Dia uno
-        LinearLayout llDia = findViewById(R.id.llDiaUno);
-        cargarDia(latLng, fechas.get(0), llDia);
-
-        //Dia dos
-        llDia = findViewById(R.id.llDiaDos);
-        cargarDia(latLng, fechas.get(1), llDia);
-
-        //Dia tres
-        llDia = findViewById(R.id.llDiaTres);
-        cargarDia(latLng, fechas.get(2), llDia);
-
-        //Dia cuatro
-        llDia = findViewById(R.id.llDiaCuatro);
-        cargarDia(latLng, fechas.get(3), llDia);
-
-        //Dia cinco
-        llDia = findViewById(R.id.llDiaCinco);
-        cargarDia(latLng, fechas.get(4), llDia);
-
-
-
-
-    }
-
-
-    //Calcular las fechas de los días mostrados en pantalla(Tiempo en milisegundos UTC)
-    //Se calculan cinco días: Antes de ayer, ayer, hoy, mañana y pasado mañana
-    private ArrayList<String> calcularFechasDiasSemana() {
-
-        ArrayList<String> dias = new ArrayList<String>();
-
-        Date hoy = new Date();
-
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(hoy);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy - MM - DD hh:mm:ss", Locale.US);
-        Date hoyM = calendar.getTime();
-
-        calendar.add(Calendar.DATE, -1);
-        Date ayerM = calendar.getTime();
-
-        calendar.add(Calendar.DATE, -1);
-        Date antesDeAyerM = calendar.getTime();
-
-        calendar.add(Calendar.DATE, 3);
-        Date mananaM = calendar.getTime();
-
-        calendar.add(Calendar.DATE, 1);
-        Date pasadoMananaM = calendar.getTime();
-
-
-        dias.add(sdf.format(antesDeAyerM));
-        dias.add(sdf.format(ayerM));
-        dias.add(sdf.format(hoyM));
-        dias.add(sdf.format(mananaM));
-        dias.add(sdf.format(pasadoMananaM));
-
-        return dias;
-
-    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -361,51 +384,4 @@ public class WeatherActivity extends AppCompatActivity implements
         return  locality;
     }
 
-
-
-    private void cargarDia(LatLng latLng, String fecha, final LinearLayout linearLayout) {
-
-        weatherWebServiceURL = "https://api.darksky.net/forecast/8633461193a3a899b847a39b3b9a9fa4/" + latLng.latitude + ","
-                                                                                                    + latLng.longitude + ","
-                                                                                                    + fecha + ", "
-                                                                                                    + "exclude=currently,flags,minutely,daily,alerts";
-
-        JsonObjectRequest jsonObjRequest = new JsonObjectRequest(Request.Method.GET,
-                weatherWebServiceURL, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-                    JSONObject hora = (JSONObject) response.get("hourly");
-                    JSONObject data = (JSONObject) ((JSONArray) hora.get("data")).get(0);
-
-                    TextView textView = new TextView(getApplicationContext());
-                    ViewGroup.LayoutParams layoutparams = new RelativeLayout.LayoutParams(
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-                    textView.setText(String.valueOf(data.get("temperature")));
-                    textView.setLayoutParams(layoutparams);
-                    textView.setVisibility(View.VISIBLE);
-                    linearLayout.addView(textView);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error, try again !", Toast.LENGTH_LONG).show();
-                    pBar.setVisibility(View.INVISIBLE);
-                }
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("tag", "Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(), "Error while loading day", Toast.LENGTH_SHORT).show();
-                //Ocultar la barra de progreso
-                pBar.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        //Agregar petición a la cola de petición
-        AppController.getInstance(this).addToRequestQueue(jsonObjRequest);
-    }
 }
